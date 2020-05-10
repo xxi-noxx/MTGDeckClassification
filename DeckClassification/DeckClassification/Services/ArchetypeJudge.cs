@@ -49,7 +49,7 @@ namespace DeckClassification.Services
         public bool IsCombo()
         {
             // MEMO : DeckItemの比較クラスを用意してあげるほうが望ましい
-            Func<IEnumerable<string>, bool> judge = (x => !x.Except(_decklist.MainBoard.Select(y => y.Name)).Any());
+            Func<IEnumerable<string>, bool> judge = (x => !x.Except(_decklist.MainBoard.Select(y => y.Card.Name)).Any());
 
             // MEMO : コンボとしてみなす組み合わせのマスタを用意しておくイメージ
             // スタブとして「荒野の再生＆発展発破」と「魔女のかまど＆大釜の使い魔」の２つを用意
@@ -87,7 +87,11 @@ namespace DeckClassification.Services
         /// <returns>ランプデッキの場合はtrue</returns>
         public bool IsRamp()
         {
-            throw new NotImplementedException();
+            // MEMO : メインボードに土地加速の属性を持つカードが何枚入っているかで判定
+            var rampCount = _decklist.MainBoard.Where(x => x.Card.Attributes?.Any(y => y == Constants.CardAttr.LandBoost) ?? false).Sum(x => x.Number);
+
+            // MEMO : 今回は暫定的に「8枚以上」でランプとする。
+            return rampCount >= 8;
         }
     }
 }

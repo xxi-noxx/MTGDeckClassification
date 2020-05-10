@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DeckClassification.Entities;
+using DeckClassification.Constants;
 
 namespace DeckClassification.Services
 {
@@ -11,10 +12,10 @@ namespace DeckClassification.Services
         {
             var mainBoard = new[]
             {
-                new DeckItem() { Name = "Wilderness Reclamation", Number = 4 },
-                new DeckItem() { Name = "Expansion // Explosion", Number = 4 },
-                new DeckItem() { Name = "Island", Number = 26 },
-                new DeckItem() { Name = "Forest", Number = 26 }
+                new DeckItem() { Card = new CardInfo() { Name = "Wilderness Reclamation" }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Expansion // Explosion" }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island" }, Number = 26 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest" }, Number = 26 }
             };
             var deck = new DeckList() { MainBoard = mainBoard };
 
@@ -27,9 +28,9 @@ namespace DeckClassification.Services
         {
             var mainBoard = new[]
                         {
-                new DeckItem() { Name = "Cauldron Familiar", Number = 4 },
-                new DeckItem() { Name = "Witch's Oven", Number = 4 },
-                new DeckItem() { Name = "Swamp", Number = 52 }
+                new DeckItem() { Card = new CardInfo() { Name = "Cauldron Familiar" }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Witch's Oven" }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Swamp" }, Number = 52 }
             };
             var deck = new DeckList() { MainBoard = mainBoard };
 
@@ -42,13 +43,43 @@ namespace DeckClassification.Services
         {
             var mainBoard = new[]
             {
-                new DeckItem() { Name = "Island", Number = 30 },
-                new DeckItem() { Name = "Forest", Number = 30 }
+                new DeckItem() { Card = new CardInfo() { Name = "Island" }, Number = 30 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest" }, Number = 30 }
             };
             var deck = new DeckList() { MainBoard = mainBoard };
 
             var service = new ArchetypeJudge(deck);
             Assert.IsFalse(service.IsCombo());
+        }
+
+        [TestMethod]
+        public void IsRamp_メインボードに土地加速属性のカードが8枚入っている場合はtrue()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Example", Attributes = new[] { CardAttr.LandBoost } }, Number = 8 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island" }, Number = 30 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest" }, Number = 30 }
+            }; 
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsTrue(service.IsRamp());
+        }
+
+        [TestMethod]
+        public void IsRamp_メインボードに土地加速属性のカードが7枚入っている場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Example", Attributes = new[] { CardAttr.LandBoost } }, Number = 7 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island" }, Number = 30 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest" }, Number = 30 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsRamp());
         }
     }
 }

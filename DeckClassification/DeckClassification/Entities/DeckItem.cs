@@ -5,8 +5,8 @@
     /// </summary>
     public class DeckItem
     {
-        /// <summary>カード名</summary>
-        public string Name { get; set; }
+        /// <summary>カード情報</summary>
+        public CardInfo Card { get; set; }
         /// <summary>枚数</summary>
         public int Number { get; set; }
     }
