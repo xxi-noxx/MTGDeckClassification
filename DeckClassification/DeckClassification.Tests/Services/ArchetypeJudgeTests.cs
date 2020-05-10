@@ -54,7 +54,7 @@ namespace DeckClassification.Services
 
 
         [TestMethod]
-        public void IsRamp_メインボードに土地加速属性のカードが8枚入っている場合はtrue()
+        public void IsRamp_メインボードに土地加速属性のカードが8枚以上入っている場合はtrue()
         {
             var mainBoard = new[]
             {
@@ -69,7 +69,7 @@ namespace DeckClassification.Services
         }
 
         [TestMethod]
-        public void IsRamp_メインボードに土地加速属性のカードが7枚入っている場合はfalse()
+        public void IsRamp_メインボードに土地加速属性のカードが7枚以下の場合はfalse()
         {
             var mainBoard = new[]
             {
@@ -85,7 +85,7 @@ namespace DeckClassification.Services
 
 
         [TestMethod]
-        public void IsBeatControl_メインボードに2マナ以下のクリーチャーと干渉するカードが8枚ずつ入っている場合はtrue()
+        public void IsBeatControl_メインボードに2マナ以下のクリーチャーと干渉するカードが8枚以上ずつ入っている場合はtrue()
         {
             var mainBoard = new[]
             {
@@ -101,7 +101,7 @@ namespace DeckClassification.Services
         }
 
         [TestMethod]
-        public void IsBeatControl_メインボードに2マナ以下のクリーチャーが7枚と干渉するカードが8枚入っている場合はfalse()
+        public void IsBeatControl_メインボードに2マナ以下のクリーチャーが7枚以下の場合はfalse()
         {
             var mainBoard = new[]
             {
@@ -117,7 +117,7 @@ namespace DeckClassification.Services
         }
 
         [TestMethod]
-        public void IsBeatControl_メインボードに2マナ以下のクリーチャーが8枚と干渉するカードが7枚入っている場合はfalse()
+        public void IsBeatControl_メインボードに干渉するカードが7枚以下の場合はfalse()
         {
             var mainBoard = new[]
             {
@@ -130,6 +130,57 @@ namespace DeckClassification.Services
 
             var service = new ArchetypeJudge(deck);
             Assert.IsFalse(service.IsBeatControl());
+        }
+
+
+        [TestMethod]
+        public void IsAggro_メインボードにクリーチャーが12枚以上でそれら全てが3マナ以下の場合はtrue()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", ManaCostNumber = 4, Types = CardType.Sorcery }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Mountain", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsTrue(service.IsAggro());
+        }
+
+        [TestMethod]
+        public void IsAggro_メインボードにクリーチャーが12枚以上でも4マナがある場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature D", ManaCostNumber = 4, Types = CardType.Creature }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Mountain", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsAggro());
+        }
+
+        [TestMethod]
+        public void IsAggro_メインボードにクリーチャーが11枚以下はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Mountain", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsAggro());
         }
     }
 }

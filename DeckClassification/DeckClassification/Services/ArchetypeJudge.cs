@@ -31,7 +31,13 @@ namespace DeckClassification.Services
         /// <returns>アグロデッキの場合はtrue</returns>
         public bool IsAggro()
         {
-            throw new NotImplementedException();
+            // MEMO : 暫定仕様として、以下の条件を全て満たした場合にアグロとする
+            // 1. メインデッキに生物が12枚以上
+            // 2. 生物の点数でみたマナコストが全て3以下
+            var creatureCount = _decklist.MainBoard.Where(x => x.Card.Types.HasFlag(CardType.Creature)).Sum(x => x.Number);
+            var hasHighCostCreature = _decklist.MainBoard.Any(x => x.Card.Types.HasFlag(CardType.Creature) && x.Card.ManaCostNumber >= 4);
+
+            return creatureCount >= 12 && !hasHighCostCreature;
         }
 
         /// <summary>
