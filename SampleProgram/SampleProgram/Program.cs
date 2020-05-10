@@ -13,6 +13,7 @@ namespace SampleProgram
             if (!args.Any())
             {
                 Console.WriteLine("ファイルが指定されていません");
+                Console.WriteLine("処理が完了しました。何かキーを押してください．．．");
                 Console.ReadKey();
                 return;
             }
@@ -34,6 +35,7 @@ namespace SampleProgram
                 sw.WriteLine($"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}：{args[0]} のアーキタイプは {archetype} です。");
             }
             Console.WriteLine($"{args[0]} のアーキタイプは {archetype} です。");
+            Console.WriteLine("処理が完了しました。何かキーを押してください．．．");
             Console.ReadKey();
         }
     }
