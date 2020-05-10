@@ -4,7 +4,7 @@ using DeckClassification.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace DeckClassification.Tests
+namespace DeckClassification
 {
     [TestClass()]
     public class ClassificationTests

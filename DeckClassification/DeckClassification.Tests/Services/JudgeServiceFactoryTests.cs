@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DeckClassification.Services.Tests
+namespace DeckClassification.Services
 {
     [TestClass()]
     public class JudgeServiceFactoryTests
