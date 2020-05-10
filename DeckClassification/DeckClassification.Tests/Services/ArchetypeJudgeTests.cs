@@ -182,5 +182,56 @@ namespace DeckClassification.Services
             var service = new ArchetypeJudge(deck);
             Assert.IsFalse(service.IsAggro());
         }
+
+
+        [TestMethod]
+        public void IsMidrange_メインボードにクリーチャーが12枚以上でその中に4マナ以上がある場合はtrue()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature D", ManaCostNumber = 4, Types = CardType.Creature }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsTrue(service.IsMidrange());
+        }
+
+        [TestMethod]
+        public void IsMidrange_メインボードにクリーチャーが12枚以上でもそれらが全て3マナ以下の場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsMidrange());
+        }
+
+        [TestMethod]
+        public void IsMidrange_メインボードにクリーチャーが11枚以下の場合はfalse()
+        {
+            var mainBoard = new[]
+           {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature C", ManaCostNumber = 3, Types = CardType.Creature }, Number = 2 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature D", ManaCostNumber = 4, Types = CardType.Creature }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Forest", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsMidrange());
+        }
     }
 }

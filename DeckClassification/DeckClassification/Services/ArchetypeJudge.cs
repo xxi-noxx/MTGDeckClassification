@@ -61,7 +61,7 @@ namespace DeckClassification.Services
         /// <returns>コンボデッキの場合はtrue</returns>
         public bool IsCombo()
         {
-            // MEMO : DeckItemの比較クラスを用意してあげるほうが望ましい
+            // MEMO : CardInfoの比較クラスを用意してあげるほうが望ましい
             Func<IEnumerable<string>, bool> judge = (x => !x.Except(_decklist.MainBoard.Select(y => y.Card.Name)).Any());
 
             // MEMO : コンボとしてみなす組み合わせのマスタを用意しておくイメージ
@@ -91,7 +91,13 @@ namespace DeckClassification.Services
         /// <returns>ミッドレンジデッキの場合はtrue</returns>
         public bool IsMidrange()
         {
-            throw new NotImplementedException();
+            // MEMO : 暫定仕様として、以下の条件を全て満たした場合にミッドレンジとする
+            // 1. メインデッキに生物が12枚以上
+            // 2. メインデッキに点数でみたマナコストが4以上の生物が入っている
+            var creatureCount = _decklist.MainBoard.Where(x => x.Card.Types.HasFlag(CardType.Creature)).Sum(x => x.Number);
+            var maxCreatureManaCostNum = _decklist.MainBoard.Where(x => x.Card.Types.HasFlag(CardType.Creature)).Max(x => x.Card.ManaCostNumber);
+
+            return creatureCount >= 12 && maxCreatureManaCostNum >= 4;
         }
 
         /// <summary>
