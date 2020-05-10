@@ -3,7 +3,7 @@
     /// <summary>
     /// カードの持つ属性
     /// </summary>
-    /// <remarks>/// 独自に付けるそのカードが持つ属性。カテゴライズ的な値。/// </remarks>
+    /// <remarks>独自に付けるそのカードが持つ属性。カテゴライズ的な値。</remarks>
     public enum CardAttr
     {
         /// <summary>土地加速</summary>

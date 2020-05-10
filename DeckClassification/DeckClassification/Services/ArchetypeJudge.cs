@@ -6,9 +6,7 @@ using DeckClassification.Entities;
 
 namespace DeckClassification.Services
 {
-    /// <summary>
-    /// アーキタイプを判定する処理
-    /// </summary
+    /// <inheritdoc cref="IArchetypeJudge"/>
     public class ArchetypeJudge : IArchetypeJudge
     {
         /// <summary>
@@ -25,10 +23,6 @@ namespace DeckClassification.Services
         }
 
 
-        /// <summary>
-        /// アグロかどうかを判定します
-        /// </summary>
-        /// <returns>アグロデッキの場合はtrue</returns>
         public bool IsAggro()
         {
             // MEMO : 暫定仕様として、以下の条件を全て満たした場合にアグロとする
@@ -40,10 +34,6 @@ namespace DeckClassification.Services
             return creatureCount >= 12 && !hasHighCostCreature;
         }
 
-        /// <summary>
-        /// 撹乱的アグロかどうかを判定します
-        /// </summary>
-        /// <returns>撹乱的アグロデッキの場合はtrue</returns>
         public bool IsBeatControl()
         {
             // MEMO : 暫定仕様として、以下の条件を全て満たした場合に錯乱的アグロとする
@@ -55,10 +45,6 @@ namespace DeckClassification.Services
             return lowCostCreatureCount >= 8 && interventionCount >= 8;
         }
 
-        /// <summary>
-        /// コンボかどうかを判定します
-        /// </summary>
-        /// <returns>コンボデッキの場合はtrue</returns>
         public bool IsCombo()
         {
             // MEMO : CardInfoの比較クラスを用意してあげるほうが望ましい
@@ -76,10 +62,6 @@ namespace DeckClassification.Services
             return result;
         }
 
-        /// <summary>
-        /// コントロールかどうかを判定します
-        /// </summary>
-        /// <returns>コントロールデッキの場合はtrue</returns>
         public bool IsControl()
         {
             // MEMO : 暫定仕様として、以下の条件を全て満たした場合にコントロールとする
@@ -93,10 +75,6 @@ namespace DeckClassification.Services
             return creatureCount <= 4 && hasMassRemoval && interventionCount >= 8;
         }
 
-        /// <summary>
-        /// ミッドレンジかどうかを判定します
-        /// </summary>
-        /// <returns>ミッドレンジデッキの場合はtrue</returns>
         public bool IsMidrange()
         {
             // MEMO : 暫定仕様として、以下の条件を全て満たした場合にミッドレンジとする
@@ -108,10 +86,6 @@ namespace DeckClassification.Services
             return creatureCount >= 12 && maxCreatureManaCostNum >= 4;
         }
 
-        /// <summary>
-        /// ランプかどうかを判定します
-        /// </summary>
-        /// <returns>ランプデッキの場合はtrue</returns>
         public bool IsRamp()
         {
             // MEMO : メインボードに土地加速の属性を持つカードが何枚入っているかで判定

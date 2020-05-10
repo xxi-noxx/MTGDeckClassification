@@ -3,9 +3,9 @@
 namespace DeckClassification.Services
 {
     /// <summary>
-    /// アーキタイプを判定する処理のインターフェース
+    /// 各アーキタイプの判定機能を提供します
     /// </summary>
-    interface IArchetypeJudge
+    public interface IArchetypeJudge
     {
         /// <summary>
         /// アグロかどうかを判定します
