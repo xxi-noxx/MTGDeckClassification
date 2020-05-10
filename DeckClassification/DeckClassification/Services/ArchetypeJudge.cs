@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeckClassification.Constants;
 using DeckClassification.Entities;
 
 namespace DeckClassification.Services
@@ -39,7 +40,13 @@ namespace DeckClassification.Services
         /// <returns>撹乱的アグロデッキの場合はtrue</returns>
         public bool IsBeatControl()
         {
-            throw new NotImplementedException();
+            // MEMO : 暫定仕様として、以下の条件を全て満たした場合に錯乱的アグロとする
+            // 1. メインデッキに2マナ以下の生物が8枚以上
+            // 2. メインデッキに干渉属性を持つカードが8枚以上
+            var lowCostCreatureCount = _decklist.MainBoard.Where(x => x.Card.Types.HasFlag(CardType.Creature) && x.Card.ManaCostNumber <= 2).Sum(x => x.Number);
+            var interventionCount = _decklist.MainBoard.Where(x => x.Card.Attributes?.Contains(CardAttr.Intervention) ?? false).Sum(x => x.Number);
+
+            return lowCostCreatureCount >= 8 && interventionCount >= 8;
         }
 
         /// <summary>
@@ -88,7 +95,7 @@ namespace DeckClassification.Services
         public bool IsRamp()
         {
             // MEMO : メインボードに土地加速の属性を持つカードが何枚入っているかで判定
-            var rampCount = _decklist.MainBoard.Where(x => x.Card.Attributes?.Any(y => y == Constants.CardAttr.LandBoost) ?? false).Sum(x => x.Number);
+            var rampCount = _decklist.MainBoard.Where(x => x.Card.Attributes?.Contains(CardAttr.LandBoost) ?? false).Sum(x => x.Number);
 
             // MEMO : 今回は暫定的に「8枚以上」でランプとする。
             return rampCount >= 8;

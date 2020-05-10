@@ -52,6 +52,7 @@ namespace DeckClassification.Services
             Assert.IsFalse(service.IsCombo());
         }
 
+
         [TestMethod]
         public void IsRamp_メインボードに土地加速属性のカードが8枚入っている場合はtrue()
         {
@@ -80,6 +81,55 @@ namespace DeckClassification.Services
 
             var service = new ArchetypeJudge(deck);
             Assert.IsFalse(service.IsRamp());
+        }
+
+
+        [TestMethod]
+        public void IsBeatControl_メインボードに2マナ以下のクリーチャーと干渉するカードが8枚ずつ入っている場合はtrue()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsTrue(service.IsBeatControl());
+        }
+
+        [TestMethod]
+        public void IsBeatControl_メインボードに2マナ以下のクリーチャーが7枚と干渉するカードが8枚入っている場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsBeatControl());
+        }
+
+        [TestMethod]
+        public void IsBeatControl_メインボードに2マナ以下のクリーチャーが8枚と干渉するカードが7枚入っている場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", ManaCostNumber = 1, Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", ManaCostNumber = 2, Types = CardType.Creature, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsBeatControl());
         }
     }
 }
