@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SampleProgram": {
+      "commandName": "Project",
+      "commandLineArgs": "\".\\DeckList\\Temur Reclamation.txt\""
+    }
+  }
+}

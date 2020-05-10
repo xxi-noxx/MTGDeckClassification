@@ -52,7 +52,7 @@ namespace DeckClassification.Services
 
             // MEMO : コンボとしてみなす組み合わせのマスタを用意しておくイメージ
             // スタブとして「荒野の再生＆発展発破」と「魔女のかまど＆大釜の使い魔」の２つを用意
-            var reclamationComboItem = new[] { "Wilderness Reclamation", "Expansion // Explosion" };
+            var reclamationComboItem = new[] { "Wilderness Reclamation", "Expansion/Explosion" };
             var ovenCatComboItem = new[] { "Cauldron Familiar", "Witch's Oven" };
 
             var result = false;

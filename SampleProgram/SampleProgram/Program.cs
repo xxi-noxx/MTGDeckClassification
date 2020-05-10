@@ -1,6 +1,8 @@
 ﻿using DeckClassification;
-using SampleProgram.Decks;
+using DeckClassification.Entities;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace SampleProgram
 {
@@ -8,14 +10,30 @@ namespace SampleProgram
     {
         static void Main(string[] args)
         {
+            if (!args.Any())
+            {
+                Console.WriteLine("ファイルが指定されていません");
+                Console.ReadKey();
+                return;
+            }
+
             IClassification classification = new Classification();
 
-            // 今回はネットに乗っていたデッキのカード情報から手打ちで用意
-            // デッキ情報のインポートやカードデータの準備はアーキタイプ判定とは別の機能なので今回は実装無し。
-            var deck = new TemurReclamation();
+            DeckList deck;
+            using (var sr = new StreamReader(args[0]))
+            {
+                var loader = new LoadDeckList();
+                deck = loader.LoadMagicOnlineDeckList(sr);
+            }
+
             var archetype = classification.GetArchetype(deck);
 
-            Console.WriteLine($"Temur Reclamation のアーキタイプは {archetype} です。");
+            // アーキタイプ名書き出し
+            using (var sw = new StreamWriter(@".\result.txt", true))
+            {
+                sw.WriteLine($"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}：{args[0]} のアーキタイプは {archetype} です。");
+            }
+            Console.WriteLine($"{args[0]} のアーキタイプは {archetype} です。");
             Console.ReadKey();
         }
     }

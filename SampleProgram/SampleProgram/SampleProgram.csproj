@@ -14,4 +14,13 @@
     <ProjectReference Include="..\..\DeckClassification\DeckClassification\DeckClassification.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DeckList\Sekappy Sample Deck.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DeckList\Temur Reclamation.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
