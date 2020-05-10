@@ -8,8 +8,8 @@ namespace DeckClassification.Entities
     public class DeckList
     {
         /// <summary>メインボード</summary>
-        public IEnumerable<DeckItem> MainBoard { get; set; }
+        public IEnumerable<DeckItem> Mainboard { get; set; }
         /// <summary>サイドボード</summary>
-        public IEnumerable<DeckItem> SideBoard { get; set; }
+        public IEnumerable<DeckItem> Sideboard { get; set; }
     }
 }
