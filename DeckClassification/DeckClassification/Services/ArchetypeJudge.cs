@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DeckClassification.Entities;
 
 namespace DeckClassification.Services
@@ -46,7 +48,19 @@ namespace DeckClassification.Services
         /// <returns>コンボデッキの場合はtrue</returns>
         public bool IsCombo()
         {
-            throw new NotImplementedException();
+            // MEMO : DeckItemの比較クラスを用意してあげるほうが望ましい
+            Func<IEnumerable<string>, bool> judge = (x => !x.Except(_decklist.MainBoard.Select(y => y.Name)).Any());
+
+            // MEMO : コンボとしてみなす組み合わせのマスタを用意しておくイメージ
+            // スタブとして「荒野の再生＆発展発破」と「魔女のかまど＆大釜の使い魔」の２つを用意
+            var reclamationComboItem = new[] { "Wilderness Reclamation", "Expansion // Explosion" };
+            var ovenCatComboItem = new[] { "Cauldron Familiar", "Witch's Oven" };
+
+            var result = false;
+            result |= judge(reclamationComboItem);
+            result |= judge(ovenCatComboItem);
+
+            return result;
         }
 
         /// <summary>
