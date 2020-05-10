@@ -9,6 +9,8 @@
         /// <summary>土地加速</summary>
         LandBoost = 1,
         /// <summary>相手に干渉するカード</summary>
-        Intervention = 2
+        Intervention = 2,
+        /// <summary>全体除去</summary>
+        MassRemoval = 3,
     }
 }

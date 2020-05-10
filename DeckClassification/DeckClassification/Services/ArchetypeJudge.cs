@@ -82,7 +82,15 @@ namespace DeckClassification.Services
         /// <returns>コントロールデッキの場合はtrue</returns>
         public bool IsControl()
         {
-            throw new NotImplementedException();
+            // MEMO : 暫定仕様として、以下の条件を全て満たした場合にコントロールとする
+            // 1. メインデッキに生物が4枚以下
+            // 2. 全体除去が入っている
+            // 3. 相手に干渉するカードが8枚以上
+            var creatureCount = _decklist.MainBoard.Where(x => x.Card.Types.HasFlag(CardType.Creature)).Sum(x => x.Number);
+            var hasMassRemoval = _decklist.MainBoard.Any(x => x.Card.Attributes?.Contains(CardAttr.MassRemoval) ?? false);
+            var interventionCount = _decklist.MainBoard.Where(x => x.Card.Attributes?.Contains(CardAttr.Intervention) ?? false).Sum(x => x.Number);
+
+            return creatureCount <= 4 && hasMassRemoval && interventionCount >= 8;
         }
 
         /// <summary>

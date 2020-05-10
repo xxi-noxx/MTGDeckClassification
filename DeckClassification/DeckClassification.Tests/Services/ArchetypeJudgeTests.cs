@@ -233,5 +233,75 @@ namespace DeckClassification.Services
             var service = new ArchetypeJudge(deck);
             Assert.IsFalse(service.IsMidrange());
         }
+
+
+        [TestMethod]
+        public void IsControl_メインボードのクリーチャーが4枚以下で全体除去属性を持つカードが1枚以上で干渉属性を持つカードが8枚以上の場合はtrue()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Sorcery, Attributes = new[] { CardAttr.MassRemoval, CardAttr.Intervention } }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell Y", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Ex Planeswalker", Types = CardType.Planeswalker, Attributes = new[] { CardAttr.Intervention } }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsTrue(service.IsControl());
+        }
+
+        [TestMethod]
+        public void IsControl_メインボードのクリーチャーが5枚以上の場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", Types = CardType.Creature }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Sorcery, Attributes = new[] { CardAttr.MassRemoval, CardAttr.Intervention } }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell Y", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Ex Planeswalker", Types = CardType.Planeswalker, Attributes = new[] { CardAttr.Intervention } }, Number = 3 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsControl());
+        }
+
+        [TestMethod]
+        public void IsControl_メインボードの全体除去属性が入っていない場合はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell Y", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Ex Planeswalker", Types = CardType.Planeswalker, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsControl());
+        }
+
+        [TestMethod]
+        public void IsControl_メインボードの干渉属性が7枚以下はfalse()
+        {
+            var mainBoard = new[]
+            {
+                new DeckItem() { Card = new CardInfo() { Name = "Creature A", Types = CardType.Creature }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Creature B", Types = CardType.Creature }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell X", Types = CardType.Sorcery, Attributes = new[] { CardAttr.MassRemoval, CardAttr.Intervention } }, Number = 1 },
+                new DeckItem() { Card = new CardInfo() { Name = "Spell Y", Types = CardType.Instant, Attributes = new[] { CardAttr.Intervention } }, Number = 4 },
+                new DeckItem() { Card = new CardInfo() { Name = "Ex Planeswalker", Types = CardType.Planeswalker, Attributes = new[] { CardAttr.Intervention } }, Number = 2 },
+                new DeckItem() { Card = new CardInfo() { Name = "Island", Types = CardType.Land }, Number = 60 }
+            };
+            var deck = new DeckList() { MainBoard = mainBoard };
+
+            var service = new ArchetypeJudge(deck);
+            Assert.IsFalse(service.IsControl());
+        }
     }
 }
